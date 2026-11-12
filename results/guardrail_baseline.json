@@ -1,0 +1,14 @@
+{
+  "attacks_total": 60,
+  "blocked_by_input_filters": 17,
+  "block_rate": 0.283,
+  "attack_success_rate_by_category": {
+    "data_leakage": 1.0,
+    "direct_injection": 0.7,
+    "indirect_injection": 0.733,
+    "out_of_scope": 0.533,
+    "overall": 0.717
+  },
+  "pii_identifiers_tested": 50,
+  "pii_identifiers_masked": 50
+}
