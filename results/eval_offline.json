@@ -1,0 +1,59 @@
+{
+  "corpus": {
+    "documents": [
+      "rbi_kyc_master_direction"
+    ],
+    "chunks": 251,
+    "words": 33505
+  },
+  "golden_set": {
+    "answerable": 28,
+    "unanswerable": 10,
+    "trick": 6
+  },
+  "retrieval": {
+    "questions": 34,
+    "hit_at_1": 0.559,
+    "hit_at_5": 0.912,
+    "hit_at_5_ci95": [
+      0.794,
+      1.0
+    ],
+    "misses_at_5": [
+      "Q011",
+      "Q018",
+      "Q032"
+    ]
+  },
+  "refusal": {
+    "threshold_sweep": {
+      "0.05": {
+        "correct_refusal_rate": 0.0,
+        "over_refusal_rate": 0.0
+      },
+      "0.1": {
+        "correct_refusal_rate": 0.0,
+        "over_refusal_rate": 0.0
+      },
+      "0.15": {
+        "correct_refusal_rate": 0.3,
+        "over_refusal_rate": 0.088
+      },
+      "0.2": {
+        "correct_refusal_rate": 0.8,
+        "over_refusal_rate": 0.265
+      },
+      "0.25": {
+        "correct_refusal_rate": 1.0,
+        "over_refusal_rate": 0.529
+      }
+    },
+    "default_threshold": 0.15
+  },
+  "indirect_injection": {
+    "planted": 15,
+    "removed_by_chunk_screening": 4,
+    "clean_chunks": 251,
+    "clean_chunks_falsely_flagged": 0
+  }
+}
