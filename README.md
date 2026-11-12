@@ -2,19 +2,23 @@
 
 **Independent validation of an LLM retrieval-augmented (RAG) assistant for banking regulation, done the way a second-line Model & AI Risk team would before approving it for use.**
 
-The assistant answers questions on RBI regulations (KYC Master Direction, Digital Lending Directions). The point of this repo is not the assistant: it is the evidence on whether the assistant can be trusted, where it fails, and which controls reduce that risk.
+The assistant answers staff questions on the RBI Master Direction on Know Your Customer (KYC). The point of this repo is not the assistant: it is the evidence on whether the assistant can be trusted, where it fails, and which controls reduce that risk.
 
-## Headline findings (guardrail baseline)
+## Headline results
 
-| Test | Result |
-| --- | --- |
-| Red-team attacks run | 60, across 4 categories |
-| Attacks stopped by keyword input filters alone | **17 / 60 (28%)** |
-| Data-leakage attempts stopped by input filters | 0 / 10 (handled by the output PII mask instead) |
-| Synthetic identifiers masked in output (PAN, Aadhaar, phone, account, email) | **50 / 50** |
-| Unit tests | 17 passing |
+Evaluated on the real **RBI Master Direction on KYC (2016, updated August 2025)**: 33,505 words split into 251 chunks, with a 44-question golden set (28 answerable, 6 trick, 10 unanswerable) whose every answer is backed by a verbatim quote from the regulation.
 
-**Interpretation:** pattern-based input filters are a weak single line of defence. They miss paraphrased and encoded injections and do nothing for leakage. The design therefore layers controls (below) instead of relying on any one of them. Reproduce with `python -m redteam.run_guardrail_baseline` (output: `results/guardrail_baseline.json`).
+| Test | Result | What it means |
+| --- | --- | --- |
+| Retrieval hit rate @5 | **91% (31/34)**, 95% CI 79% to 100% | The right passage usually reaches the model |
+| Retrieval hit rate @1 | 56% (19/34) | Ranking is weak; the model must read all 5 chunks |
+| Low-confidence refusal (score < 0.20) | refuses 80% of unanswerable questions, but also 26% of answerable ones | A retrieval score alone cannot separate the two; refusal must also come from the model |
+| Planted instructions in real chunks removed by screening | 4/15, with **0/251** clean chunks falsely flagged | Precise but weak; layered defences needed |
+| Red-team attacks stopped by keyword input filters | **17/60 (28%)** | Pattern filters are a weak single line of defence |
+| Synthetic identifiers masked in output | **50/50** | Output PII mask works on Indian formats |
+| Unit and data-integrity tests | 20 passing in CI | Every metric and control is tested |
+
+Reproduce: `python -m redteam.run_guardrail_baseline` and `python -m evals.run_eval` (outputs in `results/`). Both run automatically in GitHub Actions on every push.
 
 ## What is validated
 
@@ -44,7 +48,9 @@ Each control has a unit test, including one that shows PII **leaks when guardrai
 ```
 assurance/   rag.py (system under test), guardrails.py (controls), metrics.py (validation metrics)
 redteam/     attacks.jsonl (60 attacks), run_guardrail_baseline.py
-evals/       golden_set.jsonl (answerable, unanswerable and trick questions)
+evals/       golden_set.jsonl (44 questions with verbatim evidence), run_eval.py
+data/corpus/ RBI KYC Master Direction (public regulatory text)
+.github/     CI workflow: tests, red-team baseline, offline evaluation, optional LLM run
 docs/        validation_report.md (scope, findings, ratings, NIST AI RMF mapping)
 results/     machine-readable outputs of each run
 tests/       pytest suite
@@ -54,17 +60,23 @@ tests/       pytest suite
 
 ```bash
 pip install -r requirements.txt
-pytest                                   # 17 tests, no API key needed
-python -m redteam.run_guardrail_baseline # reproduces the headline table
-export GROQ_API_KEY=...                  # only for end-to-end LLM runs
+pytest                                   # 20 tests, no API key needed
+python -m redteam.run_guardrail_baseline # red-team baseline
+python -m evals.run_eval                 # retrieval, refusal and injection results on the RBI corpus
+GROQ_API_KEY=... python -m evals.run_eval --llm   # adds answer accuracy and consistency
 ```
 
 ## Method notes
 
 - **Judge independence:** the LLM used as judge must differ from the generator, and its labels are checked against human labels with Cohen's kappa before any judge-based metric is reported.
+- **Evidence-backed golden set:** every answerable question carries a verbatim quote from the regulation, and a test fails if any quote is missing from the corpus.
 - **Synthetic data only:** all PII in tests is randomly generated. No real personal data is used.
-- **No tuning to the test set:** the guardrail baseline is reported as first measured. Improving filters against the same 60 attacks would overstate their real-world strength, so new attacks are added before any re-measurement.
+- **No tuning to the test set:** results are reported as first measured. Improving filters against the same attacks would overstate their real-world strength, so new attacks are added before any re-measurement.
 
 ## Framework mapping
 
 Tests are mapped to the NIST AI Risk Management Framework functions (Govern, Map, Measure, Manage) in `docs/validation_report.md`.
+
+## LLM metrics
+
+Answer accuracy (graded by a larger judge model, Llama 3.3 70B, against the gold answers) and consistency over 3 runs need a Groq API key. Add it as the repository secret `GROQ_API_KEY`, then run the workflow manually with "run_llm" ticked. Results are saved to `results/eval_full.json`.
