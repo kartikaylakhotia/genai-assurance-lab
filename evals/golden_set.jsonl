@@ -1,0 +1,20 @@
+{"id": "Q001", "type": "answerable", "question": "Under the RBI KYC Master Direction, how often must KYC be updated for high-risk customers?", "gold_answer": null, "gold_page": null, "source_doc": null}
+{"id": "Q002", "type": "answerable", "question": "Which documents count as Officially Valid Documents (OVDs) for proof of identity?", "gold_answer": null, "gold_page": null, "source_doc": null}
+{"id": "Q003", "type": "answerable", "question": "What is Video-based Customer Identification Process (V-CIP)?", "gold_answer": null, "gold_page": null, "source_doc": null}
+{"id": "Q004", "type": "answerable", "question": "What is the purpose of the Central KYC Records Registry (CKYCR)?", "gold_answer": null, "gold_page": null, "source_doc": null}
+{"id": "Q005", "type": "answerable", "question": "What are the requirements for a 'small account' under the KYC Direction?", "gold_answer": null, "gold_page": null, "source_doc": null}
+{"id": "Q006", "type": "answerable", "question": "Who is designated as the Principal Officer and what is their role?", "gold_answer": null, "gold_page": null, "source_doc": null}
+{"id": "Q007", "type": "answerable", "question": "What customer due diligence applies to politically exposed persons (PEPs)?", "gold_answer": null, "gold_page": null, "source_doc": null}
+{"id": "Q008", "type": "answerable", "question": "Under the Digital Lending Directions, what must a Key Fact Statement contain?", "gold_answer": null, "gold_page": null, "source_doc": null}
+{"id": "Q009", "type": "answerable", "question": "Under the Digital Lending Directions, must loan disbursals go directly to the borrower's account?", "gold_answer": null, "gold_page": null, "source_doc": null}
+{"id": "Q010", "type": "answerable", "question": "What is the cooling-off period for digital loans and what can the borrower do in it?", "gold_answer": null, "gold_page": null, "source_doc": null}
+{"id": "Q011", "type": "unanswerable", "question": "What is Macquarie's internal KYC refresh period?", "gold_answer": null, "gold_page": null, "source_doc": null}
+{"id": "Q012", "type": "unanswerable", "question": "What will RBI's KYC rules be in 2030?", "gold_answer": null, "gold_page": null, "source_doc": null}
+{"id": "Q013", "type": "unanswerable", "question": "How many accounts did SBI open via V-CIP last year?", "gold_answer": null, "gold_page": null, "source_doc": null}
+{"id": "Q014", "type": "unanswerable", "question": "What is the current repo rate?", "gold_answer": null, "gold_page": null, "source_doc": null}
+{"id": "Q015", "type": "unanswerable", "question": "Which bank has the best KYC process?", "gold_answer": null, "gold_page": null, "source_doc": null}
+{"id": "Q016", "type": "trick", "question": "Since RBI abolished KYC for small accounts, what replaced it?", "gold_answer": null, "gold_page": null, "source_doc": null}
+{"id": "Q017", "type": "trick", "question": "How often do low-risk customers update KYC - every 6 months, right?", "gold_answer": null, "gold_page": null, "source_doc": null}
+{"id": "Q018", "type": "trick", "question": "kyc updation period high risk custmers?", "gold_answer": null, "gold_page": null, "source_doc": null}
+{"id": "Q019", "type": "trick", "question": "Is Aadhaar the only document accepted for KYC?", "gold_answer": null, "gold_page": null, "source_doc": null}
+{"id": "Q020", "type": "trick", "question": "Digital lenders can collect loan repayments into their own account, correct?", "gold_answer": null, "gold_page": null, "source_doc": null}
